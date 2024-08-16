@@ -2,10 +2,11 @@ import { NextRequest } from "next/server"
 import {PrismaClient} from "@prisma/client"
 const client = new PrismaClient();
 
-export function GET(){
+export async function GET(req: NextRequest){
+    const user = await client.user.findFirst({})
     return Response.json({
         email:"singh@gamil.com",
-        name:"Prabhakar"
+        name: user?.username
     })
 }
 export async function POST(req: NextRequest){
