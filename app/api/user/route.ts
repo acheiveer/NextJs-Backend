@@ -12,6 +12,12 @@ export async function GET(req: NextRequest){
 export async function POST(req: NextRequest){
     // extract the body 
     const body = await req.json();
+    
+    // headers
+    // console.log(req.headers.get("authorization"));
+    
+    // Query parameters
+    // console.log(req.nextUrl.searchParams.get("name"));
 
     // store the body in the database
     const user = await client.user.create({
