@@ -11,7 +11,7 @@ export async function GET(req: NextRequest){
 export async function POST(req: NextRequest){
     // extract the body 
     const body = await req.json();
-    
+
     // headers
     // console.log(req.headers.get("authorization"));
     
@@ -19,15 +19,21 @@ export async function POST(req: NextRequest){
     // console.log(req.nextUrl.searchParams.get("name"));
 
     // store the body in the database
-    const user = await client.user.create({
-        data:{
-            username: body.username,
-            password: body.password
-        }
-    })
-    console.log(user.id)
-
-    return Response.json({
-        message: "you are signed up "
-    })
+    try {
+        await client.user.create({
+            data:{
+                username: body.username,
+                password: body.password
+            }
+        })
+        return Response.json({
+            message: "you are signed up "
+        })
+    } catch (error) {
+        return Response.json({
+            message: "Error while signing up"
+        },{
+            status:411
+        })
+    }
 }
