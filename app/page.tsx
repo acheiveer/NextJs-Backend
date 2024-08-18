@@ -1,9 +1,13 @@
-import Image from "next/image";
-import axios from "axios";
+import { PrismaClient } from "@prisma/client";
+const client = new PrismaClient();
 
 async function getUserDetails() {
-  const response = await axios.get("http://localhost:3000/api/user")
-	return response.data;
+  const user = await client.user.findFirst();
+  return {
+    email: user?.username,
+    name: "prabhakar"
+  }
+  
 }
 export default async function Home() {
   const userData = await getUserDetails()
@@ -12,10 +16,10 @@ export default async function Home() {
     <div className="flex justify-center">
         <div className="border p-8 rounded">
             <div>
-                Name: {userData?.name}
+                Name: {userData.name}
             </div>
             
-            {userData?.email}
+            {userData.email}
         </div>
     </div>
 </div>
